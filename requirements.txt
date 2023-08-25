@@ -1,2 +1,2 @@
-pycryptodome
-prettytable
+prettytable==3.8.0
+pycryptodome==3.18.0
