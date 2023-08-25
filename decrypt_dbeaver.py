@@ -25,15 +25,13 @@ else:
     dirpath = sys.argv[1]
 
 print('Extracting credentials from: ' + dirpath)
-datasource_path = os.path.join(dirpath, 'data-sources.json')
-credentials_path = os.path.join(dirpath, 'credentials-config.json')
 
 PASSWORD_DECRYPTION_KEY = bytes([186, 187, 74, 159, 119, 74, 184, 83, 201, 108, 45, 101, 61, 254, 84, 74])
 
-with open(datasource_path, 'r', encoding='utf-8') as f:
+with open(os.path.join(dirpath, 'data-sources.json'), 'r', encoding='utf-8') as f:
     datasource_config = json.load(f)
 
-with open(credentials_path, 'rb') as f:
+with open(os.path.join(dirpath, 'credentials-config.json'), 'rb') as f:
     data = f.read()
     decryptor = AES.new(PASSWORD_DECRYPTION_KEY, AES.MODE_CBC, data[:16])
     padded_output = decryptor.decrypt(data[16:])
@@ -45,6 +43,13 @@ o.align = 'l'
 o.field_names = ['driver', 'name', 'user', 'password', 'url']
 for connection in datasource_config['connections']:
     conf = datasource_config['connections'][connection]
-    cred = credentials_config[connection]['#connection']
-    o.add_row([conf['driver'], conf['name'], cred['user'], cred['password'], conf['configuration']['url']])
+    try:
+        cred = credentials_config[connection]['#connection']
+        user = cred['user']
+        password = cred['password']
+    except KeyError:
+        user = ''
+        password = ''
+    o.add_row([conf['driver'], conf['name'], user, password, conf['configuration']['url']])
+
 print(o)
