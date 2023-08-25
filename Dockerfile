@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} python:3-alpine
+FROM --platform=${BUILDPLATFORM} python:3.11.4-alpine3.18
 
 ARG BUILDPLATFORM
 
