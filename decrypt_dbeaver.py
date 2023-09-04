@@ -7,7 +7,7 @@ import sys
 import os
 import json
 from Crypto.Cipher import AES
-from prettytable import PrettyTable
+from prettytable import PrettyTable, SINGLE_BORDER
 
 default_paths = [
         '~/Library/DBeaverData/workspace6/General/.dbeaver/',
@@ -40,6 +40,7 @@ with open(os.path.join(dirpath, 'credentials-config.json'), 'rb') as f:
 
 o = PrettyTable()
 o.align = 'l'
+o.set_style(SINGLE_BORDER)
 o.field_names = ['driver', 'name', 'user', 'password', 'url']
 for connection in datasource_config['connections']:
     conf = datasource_config['connections'][connection]
