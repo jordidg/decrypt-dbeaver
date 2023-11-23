@@ -70,8 +70,11 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          labels: |
+            org.opencontainers.image.title="Decrypt DBeaver"
+            org.opencontainers.image.description="Retrieve connection properties from DBeaver configuration files"
+            org.opencontainers.image.source=${{ github.repository }}
           tags: |
-            type=schedule
             type=ref,event=branch
             type=ref,event=tag
             type=ref,event=pr
